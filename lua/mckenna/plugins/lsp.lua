@@ -5,6 +5,17 @@ return {
 			{ "mason-org/mason.nvim", opts = {} },
 			"neovim/nvim-lspconfig",
 			"hrsh7th/cmp-nvim-lsp",
+			{
+				"WhoIsSethDaniel/mason-tool-installer.nvim",
+				opts = {
+					ensure_installed = {
+						"stylua",
+						"prettierd",
+						"prettier",
+						"rustfmt",
+					},
+				},
+			},
 		},
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
