@@ -20,6 +20,5 @@ require("lazy").setup({
 	spec = {
 		{ import = "mckenna.plugins" },
 	},
-	install = { colorscheme = { "catppuccin" } },
 	checker = { enabled = true },
 })
