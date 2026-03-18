@@ -4,38 +4,40 @@ return {
 		require("gitsigns").setup({
 			on_attach = function(bufnr)
 				local gitsigns = require("gitsigns")
-				local opts = { buffer = bufnr }
+				local function map(mode, lhs, rhs, desc)
+					vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+				end
 
 				-- Navigation
-				vim.keymap.set("n", "]c", function()
+				map("n", "]c", function()
 					if vim.wo.diff then
 						vim.cmd.normal({ "]c", bang = true })
 					else
 						gitsigns.nav_hunk("next")
 					end
-				end, opts)
+				end, "Next hunk")
 
-				vim.keymap.set("n", "[c", function()
+				map("n", "[c", function()
 					if vim.wo.diff then
 						vim.cmd.normal({ "[c", bang = true })
 					else
 						gitsigns.nav_hunk("prev")
 					end
-				end, opts)
+				end, "Previous hunk")
 
 				-- Actions
-				vim.keymap.set("n", "<leader>hs", gitsigns.stage_hunk, opts)
-				vim.keymap.set("n", "<leader>hr", gitsigns.reset_hunk, opts)
+				map("n", "<leader>gs", gitsigns.stage_hunk, "Stage hunk")
+				map("n", "<leader>gr", gitsigns.reset_hunk, "Reset hunk")
 
-				vim.keymap.set("v", "<leader>hs", function()
+				map("v", "<leader>gs", function()
 					gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-				end, opts)
-				vim.keymap.set("v", "<leader>hr", function()
+				end, "Stage hunk")
+				map("v", "<leader>gr", function()
 					gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-				end, opts)
+				end, "Reset hunk")
 
-				vim.keymap.set("n", "<leader>hp", gitsigns.preview_hunk, opts)
-				vim.keymap.set("n", "<leader>hb", gitsigns.toggle_current_line_blame, opts)
+				map("n", "<leader>gp", gitsigns.preview_hunk, "Preview hunk")
+				map("n", "<leader>gb", gitsigns.toggle_current_line_blame, "Toggle line blame")
 			end,
 		})
 	end,

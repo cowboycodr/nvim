@@ -1,28 +1,44 @@
 vim.g.mapleader = " "
 
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+local function map(mode, lhs, rhs, desc, opts)
+	opts = opts or {}
+	opts.desc = desc
+	vim.keymap.set(mode, lhs, rhs, opts)
+end
 
-vim.keymap.set("n", "gl", "<cmd>lua vim.diagnostic.open_float()<cr>")
-vim.keymap.set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>")
-vim.keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>")
+map("n", "<leader>pv", vim.cmd.Ex, "Open netrw")
 
-vim.keymap.set({ "n", "x" }, "gf", function()
+map("n", "gl", vim.diagnostic.open_float, "Line diagnostics")
+map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
+map("n", "]d", vim.diagnostic.goto_next, "Next diagnostic")
+
+map({ "n", "x" }, "gf", function()
 	require("conform").format()
-end)
+end, "Format code")
+
+map({ "n", "x" }, "<leader>cf", function()
+	require("conform").format()
+end, "Format code")
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	desc = "LSP Actions",
 	callback = function(event)
-		local opts = { buffer = event.buf }
+		local function lsp_map(mode, lhs, rhs, desc)
+			map(mode, lhs, rhs, desc, { buffer = event.buf })
+		end
 
-		vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
-		vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
-		vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
-		vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
-		vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
-		vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
-		vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
-		vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-		vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+		lsp_map("n", "K", vim.lsp.buf.hover, "Hover docs")
+		lsp_map("n", "gd", vim.lsp.buf.definition, "Goto definition")
+		lsp_map("n", "gD", vim.lsp.buf.declaration, "Goto declaration")
+		lsp_map("n", "gi", vim.lsp.buf.implementation, "Goto implementation")
+		lsp_map("n", "go", vim.lsp.buf.type_definition, "Goto type definition")
+		lsp_map("n", "gr", vim.lsp.buf.references, "Goto references")
+		lsp_map("n", "gs", vim.lsp.buf.signature_help, "Signature help")
+		lsp_map("n", "<F2>", vim.lsp.buf.rename, "Rename symbol")
+		lsp_map("n", "<F4>", vim.lsp.buf.code_action, "Code actions")
+		lsp_map("n", "<leader>ca", vim.lsp.buf.code_action, "Code actions")
+		lsp_map("n", "<leader>cd", vim.diagnostic.open_float, "Line diagnostics")
+		lsp_map("n", "<leader>ch", vim.lsp.buf.hover, "Hover docs")
+		lsp_map("n", "<leader>cr", vim.lsp.buf.rename, "Rename symbol")
 	end,
 })
