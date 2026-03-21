@@ -20,5 +20,4 @@ require("lazy").setup({
 	spec = {
 		{ import = "mckenna.plugins" },
 	},
-	checker = { enabled = true },
 })
