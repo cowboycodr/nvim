@@ -1,9 +1,10 @@
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.clipboard = "unnamedplus"
+
+vim.opt.tabstop = 2 -- 4
+vim.opt.shiftwidth = 2 -- 4
 vim.opt.expandtab = true
 
 vim.o.scrolloff = 8
