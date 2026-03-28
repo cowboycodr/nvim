@@ -7,14 +7,13 @@ return {
 				{ "<auto>", mode = "nxso" },
 				{ "g", mode = { "n", "x" } },
 			},
-			spec = {
-				{ "<leader>c", group = "code" },
-				{ "<leader>f", group = "find" },
-				{ "<leader>g", group = "git" },
-				{ "<leader>o", group = "opencode" },
-				{ "<leader>p", group = "project" },
-				{ "g", group = "goto" },
-			},
+		spec = {
+			{ "<leader>c", group = "code" },
+			{ "<leader>f", group = "find" },
+			{ "<leader>g", group = "git" },
+			{ "<leader>p", group = "project" },
+			{ "g", group = "goto" },
+		},
 		},
 	keys = {
 		{

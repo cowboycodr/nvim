@@ -6,7 +6,7 @@ local function map(mode, lhs, rhs, desc, opts)
 	vim.keymap.set(mode, lhs, rhs, opts)
 end
 
-map("n", "<leader>pv", vim.cmd.Ex, "Open netrw")
+map("n", "<leader>pv", function() require("oil").open() end, "Open file explorer")
 
 map("n", "gl", vim.diagnostic.open_float, "Line diagnostics")
 map("n", "[d", vim.diagnostic.goto_prev, "Previous diagnostic")
